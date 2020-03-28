@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from "react";
 import axios from "axios";
+import {API_ENDPOINT} from "../constants";
 
 export default  function HealthCheck(){
 
@@ -8,7 +9,7 @@ export default  function HealthCheck(){
 
     useEffect(() => {
         const fetchHealthCheck = async () => {
-            const result = await axios("http://localhost:3000/api/healthcheck") // TODO Move  this
+            const result = await axios(API_ENDPOINT + '/api/healthcheck')
 
             setServerStatus(result.data);
             setLoading(false);
@@ -19,7 +20,6 @@ export default  function HealthCheck(){
 
     return loading? <div> Loading.. </div> : (<> 
         <div> {serverStatus.message}</div>
-        <div> FOo </div>
-        <div> {process.env.API_HOST}</div>
+       
         </>)
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
 import HealthCheck from './api/HealthCheck';
-
+import './i18n';
 
 import {
     BrowserRouter as Router,

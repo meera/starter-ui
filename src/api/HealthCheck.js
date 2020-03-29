@@ -18,8 +18,9 @@ export default  function HealthCheck(){
         fetchHealthCheck();
     }, []);
 
-    return loading? <div> Loading.. </div> : (<> 
-        <div> {serverStatus.message}</div>
+    return loading? <div> Loading.. </div> :
+             (<> 
+                 <div> {serverStatus.message}</div>
        
-        </>)
+            </>)
 }

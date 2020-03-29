@@ -28,10 +28,10 @@ export default function Header(props) {
         <AppBar>
             <Toolbar> 
                 <Typography variant="h6" className={classes.title}> {t("AppName")}</Typography>
-                <Tabs value={0}>
+                {/* <Tabs value={0}>
                     <Tab className={classes.tab} value={0} label="Login"/>
                     <Tab className={classes.tab}  value={1} label="Register"/>
-                </Tabs>
+                </Tabs> */}
                 <LanguageSelector/>
             </Toolbar>
         </AppBar>

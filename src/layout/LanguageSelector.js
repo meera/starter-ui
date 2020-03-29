@@ -29,7 +29,7 @@ export default function LanguageSelector() {
   return (
     <div>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        {i18n.language}
+        {languages[i18n.language]}
       </Button>
       <Menu
         id="simple-menu"

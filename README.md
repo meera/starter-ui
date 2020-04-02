@@ -17,3 +17,4 @@ yarn start
 ## Features implemented 
     HealthCheck API call
     i18n
+    UserList

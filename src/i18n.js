@@ -13,7 +13,8 @@ const resources = {
         translation: { 
             "AppName": "पहिला अँप",
             "Hello": "नमस्कार !",
-            "Loading": "लोड करीत आहे.."
+            "Loading": "लोड करीत आहे..",
+            "Users": "वापरकर्ता"
         }
     }
 }

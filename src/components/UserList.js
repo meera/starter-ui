@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from "react";
 import axios from "axios";
+import socketIOClient from "socket.io-client";
 import {API_ENDPOINT} from "../constants";
 
 import { useTranslation } from 'react-i18next';
@@ -12,63 +13,138 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles({
-    table: {
-        minWidth: 650,
+    tableContainer: {
+        maxWidth: 1000,
+        marginLeft: 200,
+        marginTop: 20
+
     },
+    table: {
+        width: 650,
+    }
+   
 });
+
+
+const convertArrayToObject = (array, key) => {
+    const initialValue = {};
+    return array.reduce((obj, item) => {
+      return {
+        ...obj,
+        [item[key]]: item,
+      };
+    }, initialValue);
+  };
+
+  const socket = socketIOClient(API_ENDPOINT + '/css');
+
 export default function UserList(props) {
     const [loading, setLoading] = useState(true);
-    const [userList, setUserList] = useState([]); // empty object
-
+    const [userList, setUserList] = useState({});
     const classes = useStyles();
-
     const { t, i18n } = useTranslation();
 
-    useEffect(() => {
-        const fetchUserList = async () => {
-            const result = await axios(API_ENDPOINT + '/api/user')
 
-            setUserList(result.data);
-            console.log(result.data);
+
+    useEffect(() => {
+        
+        axios.get(API_ENDPOINT + '/api/user').then((result)  => {
+            const data = convertArrayToObject( result.data, "id")
+
+            setUserList(data);
             setLoading(false);
-        
-        }
-        fetchUserList();
+            
+        });
     }, []);
-    
-    function handleEdit(i)  {
+
+        // useEffect( () => {
+        //     console.log( 'Userr List' , userList, loading);
+
+        //     socket.on("refresh-onlineuserslist", data => {
+        //     console.log(' received refresh ', data);
+        //         axios.get(API_ENDPOINT + '/api/user/online/all')
+        //             .then( (result) => {
+        //                 console.log('Result', result.data);
+        //                 result.data.map( (userId) => { 
+        //                     console.log('User id', userId, userList); 
+        //                     userList[userId].onlineStatus = true});
+        //             } );
+        //     });
+
+        // }, [userList]  );
+
+
         
-        alert(`To be implemented ${i}, ${userList[i].givenName}`);
+        
+
+        
+
+    //     socket.on("refresh-onlineuserslist", data => {
+    //         console.log(' received refresh ', data);
+
+    //         const fetchUserOnlineStatus = async () => {
+    //             const result = await axios(API_ENDPOINT + '/api/user/online/all')
+    //             result.data.map( (key ) => { userList[key].onlineStatus = true}); 
+    //             //setUserList(result.data);
+    //             console.log(result.data);
+    //         }
+    //         fetchUserOnlineStatus();
+
+    //     });
+
+    
+    function handleEdit(key)  {
+        
+        alert(`To be implemented ${key}, ${userList[key].givenName}`);
 
     }
     return (loading? <div> Loading... </div> :
-    <TableContainer component={Paper}>
+    <TableContainer className={classes.tableContainer} component={Paper}>
 
         <Table className={classes.table} aria-label="simple table">
             <TableHead>
                 <TableRow>
-                    <TableCell align="right">Id </TableCell>
-                    <TableCell align="right">Name</TableCell>
-                    <TableCell align="right">Email</TableCell>
-                    <TableCell align="right">Actions</TableCell>
+                    <TableCell>Id </TableCell>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Email</TableCell>
+                    <TableCell>Actions</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
-                {userList.map( (user, i) => (
+                {Object.keys( userList).map( (key) => { 
+                    const user = userList[key];
+                    return (
+
                     <TableRow key={user.id}>
                         
-                        <TableCell align="right">{user.id}</TableCell>
-                        <TableCell align="right">{user.givenName}</TableCell>
-                        <TableCell align="right">{user.userName}</TableCell>
-                        <TableCell align="right">
-                        <Button variant="contained" color="secondary" onClick={() => handleEdit(i)}> Edit</Button>
+                        <TableCell>{user.id}</TableCell>
+                        <TableCell>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="flex-start"
+                            alignItems="center">
+                                <Grid item>
+                            <FiberManualRecordIcon style={{
+                                marginRight: 5,
+                                fill: (user.onlineStatus) ? "green": "grey"}} />
+                                 </Grid>
+                                 <Grid item>
+                            {user.givenName}
+                            </Grid>
+                            </Grid>
+                            </TableCell>
+                        <TableCell>{user.userName}</TableCell>
+                        <TableCell>
+                        <Button variant="contained" color="secondary" onClick={() => handleEdit(key)}> Edit</Button>
                         </TableCell>
 
                     </TableRow>
-                ))}
+                )} )}
             </TableBody>
         </Table>
 

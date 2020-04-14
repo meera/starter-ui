@@ -6,7 +6,6 @@ import {Link} from "react-router-dom";
 import Divider from '@material-ui/core/Divider';
 
 
-import footerAdorenment from '../assets/Footer Adornment.svg';
 
 const useStyles = makeStyles( theme => ({
     footer : {

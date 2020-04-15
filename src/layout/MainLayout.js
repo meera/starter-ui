@@ -9,6 +9,7 @@ import theme from '../ui/Theme';
 import {ThemeProvider} from '@material-ui/core/styles/';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -38,8 +39,10 @@ export default function MainLayout( {children}) {
         <Toolbar />
 
         </Box>
-        <Box flexGrow={1}>
+        <Box flexGrow={1}  justify="center"   alignItems="center">
+            <Grid container style={{height: "100%"}} justify= "center" direction="column" alignItems="center"> 
         {children}
+        </Grid>
         </Box>
 
         <Box>

@@ -41,7 +41,7 @@ export default function Header(props) {
     return (
         <AppBar>
             <Toolbar className={classes.grow}> 
-                <Link to="/"><Typography variant="h6" > {t("AppName")}</Typography></Link>
+                <Typography variant="h6" component={Link} to="/"> {t("AppName")} </Typography>
                 
                 <Button className={classes.users} component={Link} to="/user/list"> {t("Users")}</Button>
                 <div className={classes.grow}></div>

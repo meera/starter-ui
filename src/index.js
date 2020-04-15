@@ -7,6 +7,7 @@ import './i18n';
 import TermsOfService from './pages/TermsOfService';
 import Policy from './pages/Policy';
 import AboutUs from './pages/AboutUs';
+import ContactUs from './pages/ContactUs';
 
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -60,7 +61,7 @@ ReactDOM.render(
             <RouteWrapper path="/terms" layout={MainLayout} component={TermsOfService}/> 
             <RouteWrapper path="/policy" layout={MainLayout} component={Policy}/> 
             <RouteWrapper path="/aboutus" layout={MainLayout} component={AboutUs}/> 
-
+            <RouteWrapper path="/contactus" layout={MainLayout} component={ContactUs}/> 
 
             <RouteWrapper path="/login"  layout={MainLayout} component={Login}/>
             <RouteWrapper path="/register"  layout={MainLayout} component={Register}/>

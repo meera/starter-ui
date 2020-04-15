@@ -3,17 +3,10 @@ import { makeStyles, useTheme} from "@material-ui/core/styles"
 import { Link} from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import background from '../assets/background.jpg';
 
 const useStyles = makeStyles( theme => ( {
 
-    backgrouund: {
-        backgroundImage: `url(${background} )`,
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        height: "60em"
-    }
+   
 }) );
 
 export default function AboutUs(props) {

@@ -9,7 +9,7 @@ import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles( theme => ({
     footer : {
-        backgroundColor: theme.palette.primary.main,
+        backgroundColor: theme.palette.grey[300],
         width: "100%",
         padding: "20px"
     },
@@ -17,7 +17,7 @@ const useStyles = makeStyles( theme => ({
         top: "10px"
     },
     link: {
-        color: "white",
+        color: theme.palette.primary.dark,
         textDecoration: "none",
         paddingLeft: "15px",
         paddingRight: "15px"

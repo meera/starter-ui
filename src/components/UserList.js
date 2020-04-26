@@ -18,7 +18,7 @@ import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles({
     tableContainer: {
-        maxWidth: 1000,
+        maxWidth: "50em",
         marginLeft: 200,
         marginTop: 20
 
@@ -59,42 +59,27 @@ export default function UserList(props) {
             setLoading(false);
             
         });
-    }, []);
+    });
 
-        // useEffect( () => {
-        //     console.log( 'Userr List' , userList, loading);
+        
 
-        //     socket.on("refresh-onlineuserslist", data => {
+        
+        
+
+        
+
+        // socket.on("refresh-onlineuserslist", data => {
         //     console.log(' received refresh ', data);
-        //         axios.get(API_ENDPOINT + '/api/user/online/all')
-        //             .then( (result) => {
-        //                 console.log('Result', result.data);
-        //                 result.data.map( (userId) => { 
-        //                     console.log('User id', userId, userList); 
-        //                     userList[userId].onlineStatus = true});
-        //             } );
-        //     });
 
-        // }, [userList]  );
+        //     const fetchUserOnlineStatus = async () => {
+        //         const result = await axios(API_ENDPOINT + '/api/user/online/all')
+        //         result.data.map( (key ) => { userList[key].onlineStatus = true}); 
+        //         //setUserList(result.data);
+        //         console.log(result.data);
+        //     }
+        //     fetchUserOnlineStatus();
 
-
-        
-        
-
-        
-
-    //     socket.on("refresh-onlineuserslist", data => {
-    //         console.log(' received refresh ', data);
-
-    //         const fetchUserOnlineStatus = async () => {
-    //             const result = await axios(API_ENDPOINT + '/api/user/online/all')
-    //             result.data.map( (key ) => { userList[key].onlineStatus = true}); 
-    //             //setUserList(result.data);
-    //             console.log(result.data);
-    //         }
-    //         fetchUserOnlineStatus();
-
-    //     });
+        // });
 
     
     function handleEdit(key)  {

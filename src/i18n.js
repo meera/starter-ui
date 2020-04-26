@@ -6,7 +6,10 @@ const resources = {
         translation: { 
             "AppName": "Starter App",
             "Hello": "Hello !",
-            "Loading": "Loading.."
+            "Loading": "Loading..",
+            "GoRegister": `New To Starter App? Join now!`,
+            "GoLogin": "Already a member? Goto Login!"
+
         }
     },
     mr: {
@@ -14,7 +17,9 @@ const resources = {
             "AppName": "पहिला अँप",
             "Hello": "नमस्कार !",
             "Loading": "लोड करीत आहे..",
-            "Users": "वापरकर्ता"
+            "Users": "वापरकर्ता",
+            "GoRegister": "New To पहिला अँप? Join now!",
+            "GoLogin": "Already a member? Goto Login!"
         }
     }
 }
@@ -22,7 +27,7 @@ i18n
     .use(initReactI18next)
     .init( {
         resources,
-        lng: "mr",
+        lng: "en",
         keySeparator: false,
         interpolation: {
             escapeValue: false

@@ -59,27 +59,33 @@ export default function UserList(props) {
             setLoading(false);
             
         });
-    });
+    }, []);
 
         
 
-        
-        
 
-        
+        socket.on("refresh-onlineuserslist", data => {
 
-        // socket.on("refresh-onlineuserslist", data => {
-        //     console.log(' received refresh ', data);
+            const fetchUserOnlineStatus = async () => {
+                const result = await axios(API_ENDPOINT + '/api/user/online/all');
 
-        //     const fetchUserOnlineStatus = async () => {
-        //         const result = await axios(API_ENDPOINT + '/api/user/online/all')
-        //         result.data.map( (key ) => { userList[key].onlineStatus = true}); 
-        //         //setUserList(result.data);
-        //         console.log(result.data);
-        //     }
-        //     fetchUserOnlineStatus();
+                // 
+                result.data.map( (key ) => {
+                    
+                                        
+                    if( userList[key] != null) {
+                         const newuserList ={ ...userList};
+                        newuserList[key].onlineStatus = true;
+                         setUserList( newuserList );
+                        }
+                         
+                
+                }); 
+                //setUserList(result.data);
+            }
+            fetchUserOnlineStatus();
 
-        // });
+        });
 
     
     function handleEdit(key)  {
@@ -87,6 +93,7 @@ export default function UserList(props) {
         alert(`To be implemented ${key}, ${userList[key].givenName}`);
 
     }
+
     return (loading? <div> Loading... </div> :
     <TableContainer className={classes.tableContainer} component={Paper}>
 
@@ -116,7 +123,7 @@ export default function UserList(props) {
                                 <Grid item>
                             <FiberManualRecordIcon style={{
                                 marginRight: 5,
-                                fill: (user.onlineStatus) ? "green": "grey"}} />
+                                fill: ( user.onlineStatus === true ? "green": "grey")}} />
                                  </Grid>
                                  <Grid item>
                             {user.givenName}

@@ -64,7 +64,7 @@ export default function Header(props) {
       let location = useLocation();
 
     let tab = false; //If tag is inactive, initial value is false.
-    if( location.pathname === '/login') 
+    if( location.pathname === '/login')     
       tab = 0;
 
    if( location.pathname === '/register') 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -13,33 +13,50 @@ import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import validator from "email-validator";
+import { AuthContext } from '../context/AuthContext';
 
 const useStyles = makeStyles(theme => ({
 
     container: {
-        height: "25em",
-        width: "20em",
+        height: "30em",
+        width: "30em",
         padding: "2em",
         marginBottom: "1em"
     },
     loginButton: {
         marginTop: "2em"
-    }
+    },
+    acceptTCText: {
+        color: theme.palette.text.disabled,
+    } 
+    
 
 }));
 export default function Register(props) {
 
     const classes = useStyles();
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [doneLoggedIn, setDoneLoggedIn] = useState(false);
     const [userName, setUserName] = useState("");
-    const [name, setName] = useState("");
+    const [userNameHelperText, setUserNameHelperText] = useState("");
+    const [givenName, setGivenName] = useState("");
     const [password, setPassword] = useState("");
+    const [passwordHelperText, setPasswordHelperText] = useState("");
+
+    const [confirmPassword, setConfirmPassword] = useState("");
+
     const [error, setError] = useState("");
+    const [acceptTC, setAcceptTC] = useState(false);
+
+
+    const authContext = useContext(AuthContext);
 
     const { t, i18n } = useTranslation();
 
-    function handleChange(event) {
-        this.setState({ value: event.target.value });
+    function handleAcceptTcCheckBox(event) {
+
+
+        setAcceptTC(event.target.checked );
     }
 
     function handleSubmit(event) {
@@ -59,63 +76,89 @@ export default function Register(props) {
                 method: 'post',
                 url: API_ENDPOINT + '/api/user/register',
                 data: {
-                    userName: userName,
-                    userPassword: password
+                    acceptTC,
+                    confirmPassword,
+                    userPassword: password,
+                    userName,
+                    givenName: givenName,
+
                 }
-            }).then((result) => { console.log(result); setLoggedIn(true) })
-            .catch((error) => { console.log(error); setError(error.message); })
+            }).then((result) => { console.log(result); setDoneLoggedIn(true) 
+                authContext.setUser(result.data.result);
+                authContext.setAuth({ isLoggedIn: true, authToken: '1212' });// TODO
+            })
+            .catch((error) => { console.log(error.response); setError(error.response.data.message); })
 
 
 
     }
 
+    function handleName(event) {
 
-    return loggedIn ?
+         setUserName(event.target.value);
+         if (! validator.validate(event.target.value))
+            setUserNameHelperText("Email format not right");
+        else
+             setUserNameHelperText("");
+
+
+
+    }
+
+    return doneLoggedIn ?
         <Redirect to='/home' /> :
         <>
 
-            <Paper className={classes.container} direction="column" justify="center" alignItems="center">
-
-                <Grid container justify="center" alignItems="center">
-                    <Grid item>
+            <Paper className={classes.container} >
+                    <Grid container justify="center">
                         <Typography> Register </Typography>
 
-                    </Grid>
                     <Typography color="error"> {error} </Typography>
-                    <TextField fullWidth id="name" value={name} label="Name" onChange={(event) => setName(event.target.value)} />
-                    <TextField fullWidth id="username" value={userName} label="User name (Your email)" onChange={(event) => setUserName(event.target.value)} />
+                    <TextField fullWidth id="name" required value={givenName} label="Name" onChange={(event) => setGivenName(event.target.value)}  />
+                    <TextField fullWidth id="username" 
+                                required
+                                 value={userName} 
+                                 label="User name (Your email)" 
+                                 helperText={userNameHelperText}
+                                 error={userNameHelperText.length == 0 ? false : true }
+                                 onChange={handleName} 
+                                  
+                                 />
 
-                    <TextField fullWidth id="password" value={password}
+                    <TextField fullWidth id="password" required value={password}
                         label="Password"
                         onChange={(event) => setPassword(event.target.value)}
                         type="password"
                         autoComplete="current-password" />
 
 
-                    <TextField fullWidth id="confirm-password" value={password}
+                    <TextField fullWidth id="confirm-password" required value={confirmPassword}
                         label="Confirm Password"
-                        onChange={(event) => setPassword(event.target.value)}
+                        onChange={(event) => setConfirmPassword(event.target.value)}
                         type="password"
                         autoComplete="confirm-password" />
 
-
+                    <Grid container align="flex-start">
                     <FormControlLabel
                         control={
                             <Checkbox
-                                checked={true}
-                                //onChange={handleChange}
-                                name="checkedB"
+                                checked={acceptTC}
+                                onChange={handleAcceptTcCheckBox}
+                                name="acceptTC"
                                 color="primary"
                             />
                         }
-                        label="Primary"
+                        label="I Agree"
                     />
+                    </Grid>
+
+<Typography className={classes.acceptTCText}> By clicking Agree, you agree to our Terms, Data Policy and Cookies Policy.</Typography>
+
                     <Grid item>
                         <Button value="Register" onClick={handleSubmit} className={classes.loginButton} variant="contained" color="primary"> Register </Button>
 
                     </Grid>
-                </Grid>
-
+                    </Grid>
             </Paper>
 
             <Typography component={Link} to="/login" > {t("GoLogin")}  </Typography>
